@@ -39,7 +39,7 @@ export default function Projects() {
               className="border-t-2 border-primary pt-6"
             >
               <h3 className="text-xl font-bold mb-4">{project.title}</h3>
-              <p className="mb-4 flex-grow">{project.description}</p>
+              <p className="mb-4 grow">{project.description}</p>
               <div className="flex flex-wrap gap-2">
                 {project.technologies.map((tech, i) => (
                   <span key={i} className="text-primary text-sm">

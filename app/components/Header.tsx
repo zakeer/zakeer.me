@@ -29,7 +29,7 @@ export default function Header() {
 
   return (
     <motion.header
-      className="sticky flex items-center justify-center py-4 px-4 top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      className="sticky flex items-center justify-center py-4 px-4 top-0 z-50 w-full bg-background/95 backdrop-blur-sm supports-backdrop-filter:bg-background/60"
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -72,7 +72,7 @@ export default function Header() {
         </div>
 
         {/* Desktop Menu */}
-        <nav className="hidden md:flex items-center backdrop-blur-md bg-background/70 rounded-full px-6 py-2 border border-border shadow-sm">
+        <nav className="hidden md:flex items-center backdrop-blur-md bg-background/70 rounded-full px-6 py-2 border border-border shadow-xs">
           {menuItems.map((item) => (
             <Link
               key={item.href}
