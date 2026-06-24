@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Prep · Zakeer Hussain</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d1117;--bg2:#161b22;--bg3:#1c2128;--border:#30363d;
+  --text:#c9d1d9;--muted:#8b949e;--accent:#58a6ff;--accent2:#79c0ff;
+  --green:#3fb950;--yellow:#d29922;--red:#f85149;
+  --story-bg:#0e1f35;--intro-bg:#0e1f18;--arch-bg:#101828;
+  --r:8px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.72;font-size:15px}
+.app{display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{width:220px;background:var(--bg2);border-right:1px solid var(--border);
+  position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:20;padding:0 0 80px}
+.sidebar-brand{padding:16px;border-bottom:1px solid var(--border)}
+.sidebar-brand h1{font-size:12px;color:var(--accent);font-weight:700;letter-spacing:.8px;text-transform:uppercase}
+.sidebar-brand p{font-size:11px;color:var(--muted);margin-top:2px}
+.nav-group{margin-top:8px}
+.nav-lbl{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:8px 14px 3px}
+.nav-item{display:block;padding:7px 14px;color:var(--text);text-decoration:none;font-size:13px;
+  cursor:pointer;border-left:2px solid transparent;transition:all .12s;user-select:none}
+.nav-item:hover{background:var(--bg3);color:var(--accent2)}
+.nav-item.active{background:var(--bg3);color:var(--accent);border-left-color:var(--accent)}
+.nav-badge{float:right;background:rgba(88,166,255,.2);color:var(--accent);font-size:10px;
+  font-weight:700;padding:1px 6px;border-radius:10px}
+
+/* MAIN */
+.main{margin-left:220px;flex:1;padding:32px 36px 100px;max-width:920px}
+.section{display:none}.section.active{display:block}
+.sec-head{margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.sec-head h2{font-size:20px;font-weight:600}
+.sec-head p{color:var(--muted);font-size:13px;margin-top:4px}
+
+/* CARDS */
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:20px 22px;margin-bottom:14px}
+.card-story{background:var(--story-bg);border-color:#1c3a5c}
+.card-intro{background:var(--intro-bg);border-color:#1c3c28}
+.card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+.card-title{font-size:14px;font-weight:600;color:var(--accent)}
+.card-sub{font-size:12px;color:var(--muted);margin-top:3px}
+.card p{margin-bottom:10px;line-height:1.72}.card p:last-child{margin-bottom:0}
+.card em{color:var(--muted);font-style:italic;font-size:13px}
+
+/* TAG ROW */
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.tag{background:rgba(88,166,255,.08);color:var(--accent);border:1px solid rgba(88,166,255,.2);
+  border-radius:20px;padding:2px 9px;font-size:11px}
+.tag-green{background:rgba(63,185,80,.08);color:var(--green);border-color:rgba(63,185,80,.2)}
+
+/* SPEAK BUTTON */
+.speak-btn{display:inline-flex;align-items:center;gap:5px;background:rgba(88,166,255,.08);
+  border:1px solid rgba(88,166,255,.25);color:var(--accent);border-radius:6px;
+  padding:5px 11px;font-size:12px;cursor:pointer;transition:all .13s;white-space:nowrap;flex-shrink:0}
+.speak-btn:hover{background:rgba(88,166,255,.18)}
+.speak-btn.playing{background:rgba(63,185,80,.1);border-color:rgba(63,185,80,.3);color:var(--green);animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+.speak-icon{width:13px;height:13px;fill:currentColor}
+
+/* TTS BAR */
+.tts-bar{position:fixed;bottom:0;left:220px;right:0;background:var(--bg2);
+  border-top:1px solid var(--border);padding:10px 20px;display:none;
+  align-items:center;gap:14px;z-index:100;flex-wrap:wrap}
+.tts-bar.on{display:flex}
+.tts-info{flex:1;font-size:12px;color:var(--muted);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.tts-info strong{color:var(--text)}
+.tts-ctrls{display:flex;align-items:center;gap:8px}
+.tts-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text);
+  border-radius:5px;padding:4px 10px;font-size:12px;cursor:pointer;transition:background .12s}
+.tts-btn:hover{background:var(--border)}
+.spd{background:var(--bg3);border:1px solid var(--border);color:var(--text);
+  border-radius:5px;padding:4px 8px;font-size:12px;cursor:pointer}
+
+/* STAFF MOMENT */
+.staff-moment{background:rgba(210,153,34,.08);border-left:3px solid var(--yellow);
+  border-radius:0 6px 6px 0;padding:8px 14px;margin-bottom:14px;font-size:12px;color:var(--yellow)}
+
+/* QUESTIONS */
+.q-section{margin-bottom:28px}
+.q-section-title{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.8px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.q-list{list-style:none}
+.q-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid rgba(48,54,61,.6);align-items:flex-start}
+.q-item:last-child{border-bottom:none}
+.q-n{color:var(--muted);font-size:11px;min-width:22px;padding-top:2px}
+.q-text{flex:1;font-size:13.5px;line-height:1.55}
+.badges{display:flex;gap:4px;flex-shrink:0;padding-top:1px}
+.b{font-size:10px;font-weight:600;padding:1px 6px;border-radius:4px;white-space:nowrap}
+.b-r{background:rgba(63,185,80,.12);color:var(--green);border:1px solid rgba(63,185,80,.25)}
+.b-h{background:rgba(248,81,73,.12);color:var(--red);border:1px solid rgba(248,81,73,.25)}
+
+/* ARCH ANSWER */
+.arch-answer{background:var(--arch-bg);border:1px solid #1e3058;border-radius:var(--r);padding:18px 22px;margin-top:10px;display:none}
+.arch-answer.open{display:block}
+.arch-answer h4{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.7px;margin:14px 0 5px}
+.arch-answer h4:first-child{margin-top:0}
+.arch-answer p{font-size:13px;color:var(--text);margin-bottom:7px;line-height:1.6}
+.arch-answer ul{padding-left:16px;margin-bottom:8px}
+.arch-answer li{font-size:13px;color:var(--text);margin-bottom:3px;line-height:1.55}
+.toggle-arch{background:none;border:1px solid var(--border);color:var(--muted);border-radius:6px;
+  padding:5px 12px;font-size:12px;cursor:pointer;margin-top:8px;transition:all .13s}
+.toggle-arch:hover{background:var(--bg3);color:var(--text)}
+
+/* REMINDERS */
+.rem-box{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--accent);
+  border-radius:0 var(--r) var(--r) 0;padding:14px 18px;margin-bottom:12px}
+.rem-box.yellow{border-left-color:var(--yellow)}
+.rem-box.green{border-left-color:var(--green)}
+.rem-box h3{font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px}
+.rem-box.yellow h3{color:var(--yellow)}.rem-box.green h3{color:var(--green)}
+.rem-box ul{padding-left:16px}
+.rem-box li{font-size:13px;margin-bottom:4px;line-height:1.55}
+.rem-box code{background:rgba(88,166,255,.1);color:var(--accent);padding:1px 5px;border-radius:3px;font-size:12px}
+.nums-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-top:8px}
+.num-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:10px 14px}
+.num-val{font-size:18px;font-weight:700;color:var(--green)}
+.num-lbl{font-size:11px;color:var(--muted);margin-top:1px}
+.comp-box{background:rgba(210,153,34,.07);border:1px solid rgba(210,153,34,.3);border-radius:6px;padding:12px 16px;margin-top:8px}
+.comp-box p{font-size:13px}.comp-box strong{color:var(--yellow)}
+
+/* GLOSSARY */
+.glo-search{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:6px;
+  padding:10px 14px;color:var(--text);font-size:14px;margin-bottom:16px;outline:none}
+.glo-search:focus{border-color:var(--accent)}
+.glo-search::placeholder{color:var(--muted)}
+.glo-grid{display:grid;gap:10px}
+.glo-item{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:12px 16px}
+.glo-item.hidden{display:none}
+.glo-term{font-size:14px;font-weight:600;color:var(--accent);margin-bottom:4px}
+.glo-def{font-size:13px;color:var(--text);line-height:1.6}
+.glo-cat{display:inline-block;font-size:10px;color:var(--muted);background:var(--bg2);
+  border:1px solid var(--border);border-radius:4px;padding:1px 6px;margin-top:6px}
+.voice-note{background:rgba(88,166,255,.06);border:1px solid rgba(88,166,255,.2);border-radius:6px;
+  padding:10px 14px;margin-bottom:14px;font-size:12px;color:var(--muted)}
+.voice-note strong{color:var(--accent)}
+
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+@media(max-width:768px){
+  .sidebar{width:100%;height:auto;position:static;display:flex;overflow-x:auto;padding:0;border-right:none;border-bottom:1px solid var(--border)}
+  .sidebar-brand{display:none}.nav-group{display:flex;align-items:center;white-space:nowrap}
+  .nav-lbl{display:none}.nav-item{padding:10px 12px;border-left:none;border-bottom:2px solid transparent}
+  .nav-item.active{border-bottom-color:var(--accent);border-left:none}
+  .main{margin-left:0;padding:18px 16px 100px}.tts-bar{left:0}
+  .app{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ═══ SIDEBAR ═══ -->
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <h1>Interview Prep</h1>
+    <p>Zakeer · Agoda Staff FE</p>
+  </div>
+  <div class="nav-group">
+    <div class="nav-lbl">Start Here</div>
+    <span class="nav-item active" data-sec="intro">Profile &amp; Intro</span>
+  </div>
+  <div class="nav-group">
+    <div class="nav-lbl">Stories</div>
+    <span class="nav-item" data-sec="stories">All Story Scripts <span class="nav-badge">8</span></span>
+  </div>
+  <div class="nav-group">
+    <div class="nav-lbl">Interview Rounds</div>
+    <span class="nav-item" data-sec="coding">Round 1 · Coding</span>
+    <span class="nav-item" data-sec="platform">Round 2 · Platform</span>
+    <span class="nav-item" data-sec="arch">Round 3 · Architecture</span>
+    <span class="nav-item" data-sec="culture">Round 4 · Culture</span>
+    <span class="nav-item" data-sec="ai">AI Questions</span>
+  </div>
+  <div class="nav-group">
+    <div class="nav-lbl">Reference</div>
+    <span class="nav-item" data-sec="reminders">Posture Reminders</span>
+    <span class="nav-item" data-sec="glossary">Glossary <span class="nav-badge">42</span></span>
+  </div>
+</nav>
+
+<!-- ═══ MAIN ═══ -->
+<main class="main">
+
+<!-- ─── INTRO ─── -->
+<div class="section active" id="s-intro">
+  <div class="sec-head">
+    <h2>Profile &amp; Introduction Scripts</h2>
+    <p>Use the speak button to hear each version out loud. Version A for Architecture/Culture rounds.</p>
+  </div>
+
+  <div class="card" style="border-color:#2a4a3a;background:#0d1f16;margin-bottom:20px">
+    <div class="card-head">
+      <div><div class="card-title">Zakeer Hussain — Quick Profile</div>
+      <div class="card-sub">Staff Software Engineer · Frontend-heavy fullstack · AI-native</div></div>
+    </div>
+    <p><strong>12 years</strong> building frontend systems at enterprise SaaS scale. React + TypeScript as the primary stack. Java and Python where the problem needed it.</p>
+    <p>Most significant work sits at the <strong>platform and process layer</strong>: owned the DEM micro-frontend at Netskope, drove Module Federation across 6 feature teams, built production-grade AI evaluation systems at SAP, and designed the Spec-Driven Development pipeline (Figma → PRD → JIRA → test cases).</p>
+    <p><strong>Key numbers:</strong> MFE adoption cut integration turnaround 30%, code duplication 20%. Spec pipeline dropped post-release UI bugs 25%, shifted from monthly to weekly releases. Code review improvements halved new-engineer onboarding time.</p>
+  </div>
+
+  <div class="card card-intro">
+    <div class="card-head">
+      <div><div class="card-title">Version A — Full (Architecture / Culture round, ~90 sec)</div>
+        <div class="card-sub">Use this in most rounds. Don\'t recite — say it naturally.</div></div>
+      <button class="speak-btn" onclick="speak(this,'intro-a','Version A — Full Introduction')">
+        <svg class="speak-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        Speak
+      </button>
+    </div>
+    <p id="intro-a">"What got me looking at this role — I came across the scale of what Agoda actually runs. A thousand concurrent A/B experiments on a live hotel search product. That\'s not typical. Most frontend teams don\'t work under that kind of constraint.</p>
+    <p>My background is about twelve years in frontend, mostly on the platform side. Most recently I was a staff engineer at Netskope — I built our micro-frontend platform there. We had ten product modules, six teams building in parallel, and the real problem was: how do you let those teams ship independently without constantly stepping on each other? I set up the module federation architecture, pushed the API contract standards across teams, built out the shared component library. Teams went from blocking each other on every release to deploying independently — integration overhead dropped about thirty percent.</p>
+    <p>Before that I was at SAP SuccessFactors — B2B, very data-heavy. I also did AI integration work there — built the evaluation pipeline we needed before we could put AI output in front of 8,000 enterprise HR clients.</p>
+    <p>So yeah — that\'s the background. I'm drawn to places where the scale is real and it actually shapes the decisions you make. That\'s why this felt worth pursuing."</p>
+  </div>
+
+  <div class="card card-intro">
+    <div class="card-head">
+      <div><div class="card-title">Version B — Short (Coding round or "quick overview")</div>
+        <div class="card-sub">30 seconds. Get to the code faster.</div></div>
+      <button class="speak-btn" onclick="speak(this,'intro-b','Version B — Short Introduction')">
+        <svg class="speak-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        Speak
+      </button>
+    </div>
+    <p id="intro-b">"Sure — about twelve years in frontend, mostly on the platform side. Most recently staff engineer at Netskope, built our micro-frontend system across six teams. Before that SAP SuccessFactors. I tend to end up on the problems between teams — architecture, contracts, how separate systems fit together without breaking each other. That\'s what drew me here."</p>
+  </div>
+
+  <div class="card card-intro">
+    <div class="card-head">
+      <div><div class="card-title">Version C — Opening variation (CXP/MFE hook first)</div>
+        <div class="card-sub">Use if the standard intro feels stiff. Lead with Agoda-specific pull.</div></div>
+      <button class="speak-btn" onclick="speak(this,'intro-c','Version C — Opening Variation')">
+        <svg class="speak-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        Speak
+      </button>
+    </div>
+    <p id="intro-c">"Honestly, what got me here was reading about the CXP platform and the direction Agoda is moving in with micro-frontends. I've been doing almost exactly this at Netskope for the last few years — just at a smaller scale. So it made sense to reach out. Let me give you the quick background..."</p>
+  </div>
+
+  <div class="card" style="border-color:#2a3a2a">
+    <div class="card-title" style="margin-bottom:10px">Self-check before each round</div>
+    <ul style="padding-left:18px;font-size:13px">
+      <li style="margin-bottom:6px">Does it open with <em>what pulled me to Agoda</em>, not with "I have X years"?</li>
+      <li style="margin-bottom:6px">Does the MFE story come in naturally, not as a recitation?</li>
+      <li>Does it end with something that invites them to continue?</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ─── STORIES ─── -->
+<div class="section" id="s-stories">
+  <div class="sec-head">
+    <h2>Story Scripts</h2>
+    <p>Natural, conversational language — no corporate speak. Each story has a staff-level framing moment. Press Speak to hear it.</p>
+  </div>
+  <div class="voice-note">
+    <strong>Voice tip:</strong> If the Indian English voice (Microsoft Ravi / en-IN) isn\'t available, the player falls back to the closest English voice. Use Chrome on Windows for best results.
+  </div>
+
+  <!-- Story 1 -->
+  <div class="card card-story">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Story 1 — Driving MFE Adoption</div>
+        <div class="card-sub">Cross-team architecture change you drove yourself</div>
+      </div>
+      <button class="speak-btn" onclick="speak(this,\'story1','Story 1 — Driving MFE Adoption')">
+        <svg class="speak-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        Speak
+      </button>
+    </div>
+    <div class="tags">
+      <span class="tag">micro-frontend adoption</span>
+      <span class="tag">convince management</span>
+      <span class="tag">large-scale architecture</span>
+    </div>
+    <div class="staff-moment">Staff framing: "I noticed this before anyone asked me to."</div>
+    <div id="story1">
+      <p>This started from something I noticed on my own — nobody asked me to look into it. We had six teams all building different parts of the same product, but there was no shared agreement on how those pieces should work together. Every team had its own way of doing things. I kept seeing the same UI components built three different ways, and every time two teams needed to work together on something, it took far longer than it should.</p>
+      <p>I started writing down what this was actually costing us. How often releases slipped because one team was waiting on another. How many hours a week teams spent just figuring out why things didn\'t fit together. Once I had real numbers, I put together a document: here\'s what\'s happening, here are a few options, here\'s what I\'d recommend and why.</p>
+      <p>The technical work — setting up Module Federation — wasn't the hardest part once I\'d done the research. I looked at Angular\'s built-in lazy-loading and a couple of other approaches before settling on this one, because I needed to explain clearly why the others didn\'t work as well. The harder part was convincing six teams who were already stretched thin to take on something new.</p>
+      <p>What shifted things was making the current cost visible. When people can see a real number — this is how many hours a week we\'re losing right now — the conversation changes. It stops being about whether to change and starts being about how to do it without making things worse first.</p>
+      <p>We started with one team as a proper test. Documented what broke, fixed the setup, then expanded. By the end, teams were shipping on their own schedule. Code overlap dropped about 20%, and the shared component library we built got used by teams outside our area too. That\'s still running in production today — and I don\'t own it anymore. Which is exactly what you want.</p>
+    </div>
+  </div>
+
+  <!-- Story 2 -->
+  <div class="card card-story">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Story 2 — API Contract Standards</div>
+        <div class="card-sub">Influence without authority / alignment across teams</div>
+      </div>
+      <button class="speak-btn" onclick="speak(this,\'story2','Story 2 — API Contract Standards')">
+        <svg class="speak-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        Speak
+      </button>
+    </div>
+    <div class="tags">
+      <span class="tag">influence without authority</span>
+      <span class="tag">cross-team alignment</span>
+      <span class="tag">process change</span>
+    </div>
+    <div class="staff-moment">Staff framing: "This was a cross-team problem, not just mine."</div>
+    <div id="story2">
+      <p>We had three teams at Netskope — design, backend, and frontend — all working from different assumptions about what the data between them would look like. Not because anyone was being careless. Nobody had said it was anyone\'s job to define this. It kept showing up as bugs: a field name didn\'t match, something one team expected to always have a value would come back empty, and both sides would spend half a day figuring out who was wrong.</p>
+      <p>I wasn\'t the manager. Nobody asked me to fix it. But I could trace specific bugs back to this problem, and the pattern was clear enough. I wrote up a simple standard — how we\'d define what data looks like between systems, how we\'d handle changes, how we\'d flag when something was going to break.</p>
+      <p>Then I talked to each team separately before any group meeting. I\'d learned this from earlier mistakes — if you walk into a room with a proposal and three teams haven\'t seen it, you\'re not going to get alignment, you\'re just going to have a messy debate. Getting feedback one-on-one means that by the time you\'re all in the same room, you\'re actually solving the remaining real issues, not fighting about whether the idea is good.</p>
+      <p>The joint meeting ended up being straightforward. The standard became how we do new features. The recurring integration bugs that showed up every cycle basically stopped. Teams started caring about keeping their interfaces clean, instead of just arguing about who broke what.</p>
+    </div>
+  </div>
+
+  <!-- Story 3 -->
+  <div class="card card-story">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Story 3 — Production Incident</div>
+        <div class="card-sub">Critical failure, rollback, and what changed after</div>
+      </div>
+      <button class="speak-btn" onclick="speak(this,\'story3','Story 3 — Production Incident')">
+        <svg class="speak-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        Speak
+      </button>
+    </div>
+    <div class="tags">
+      <span class="tag">production incident</span>
+      <span class="tag">critical failure</span>
+      <span class="tag">post-mortem</span>
+    </div>
+    <div class="staff-moment">Staff framing: "The harder part wasn\'t the technical work — it was what came after."</div>
+    <div id="story3">
+      <p>We had a production problem where an update I pushed to a shared component broke dashboards across several products. Not subtle — it was immediate, visible, and multiple teams were affected right away.</p>
+      <p>First thing I did was get the right people on a call quickly. Not everyone who was upset, just whoever could actually do something about it. Too many people in an incident slows things down — you spend time sorting out who\'s doing what instead of just doing it. I kept the working group small and sent regular status updates separately to everyone else. We rolled back within an hour.</p>
+      <p>Rolling back is the easy part. What I cared more about was making sure the same thing couldn\'t happen again. We ran a review — and I mean genuinely focused on the system, not on finding someone to blame. I've been in reviews where they say it\'s blameless but you can feel it isn\'t, so people defend themselves instead of being honest. I set the tone early: the process failed, we\'re here to understand why.</p>
+      <p>The real finding was that we had no discipline around how changes to shared components got shipped. Teams were always using the latest version, which is fine until you need to reverse something fast and suddenly you can\'t. We fixed it: clear version numbers, a definition of what counts as a breaking change, and a process for handling those. Two months later we had another update cycle — completely uneventful. That\'s the real test.</p>
+    </div>
+  </div>
+
+  <!-- Story 4 -->
+  <div class="card card-story">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Story 4 — Code Review Improvement</div>
+        <div class="card-sub">Raising the quality floor / multiplying team impact</div>
+      </div>
+      <button class="speak-btn" onclick="speak(this,\'story4','Story 4 — Code Review Improvement')">
+        <svg class="speak-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        Speak
+      </button>
+    </div>
+    <div class="tags">
+      <span class="tag">team quality</span>
+      <span class="tag">code review process</span>
+      <span class="tag">multiplying impact</span>
+    </div>
+    <div class="staff-moment">Staff framing: "I built the case, got alignment, and made it the default — not a one-time fix."</div>
+    <div id="story4">
+      <p>When I joined Netskope, code reviews were happening but inconsistently. One senior engineer would flag a performance problem; another would let the same pattern through without a comment. New engineers had no reliable signal for what good looked like — it depended entirely on who reviewed their code that week.</p>
+      <p>I spent two weeks watching before I suggested anything. What was being flagged, what wasn\'t, where bugs we fixed later had already been visible during review and nobody caught them. Two things stood out: there was no shared definition of what a review was actually checking, and there was no expected timeframe, so code sat for two or three days and blocked people.</p>
+      <p>I introduced review checklists covering the things we\'d agreed mattered — performance, security, accessibility, test coverage. Then automated checks for everything a computer can reliably catch, so human review time stopped going to formatting and basic errors. And a 48-hour expectation on first review. That last one sounds small but it changed things noticeably. Now there was accountability in both directions, not just the person waiting.</p>
+      <p>New engineer onboarding went from four weeks to two, because there was a real standard to aim for instead of guessing what different people wanted. Bug-fix cycle time dropped about 30%. The same problem existed at SAP — large HR datasets were killing scroll performance. I introduced virtualized lists, render time dropped 25%, and that became the standard across the department. Both cases were the same kind of fix: address the problem at the system level and make sure it becomes the default.</p>
+    </div>
+  </div>
+
+  <!-- Story 5 -->
+  <div class="card card-story">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Story 5 — AI in Production (SAP)</div>
+        <div class="card-sub">Responsible AI adoption, eval harness, enterprise HR at scale</div>
+      </div>
+      <button class="speak-btn" onclick="speak(this,\'story5','Story 5 — AI in Production')">
+        <svg class="speak-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        Speak
+      </button>
+    </div>
+    <div class="tags">
+      <span class="tag">AI in production</span>
+      <span class="tag">eval harness</span>
+      <span class="tag">enterprise scale</span>
+    </div>
+    <div class="staff-moment">Staff framing: "The integration wasn\'t the hard part — the testing problem was."</div>
+    <div id="story5">
+      <p>I have two AI stories. One is about AI in the product itself, and one is about AI in how we develop. Let me do the product one first.</p>
+      <p>At SAP we had over 8,000 enterprise HR clients, and their teams were doing a lot of manual work that could be automated — routing requests, flagging unusual patterns, matching candidates to jobs. I proposed building a layer on top of GPT and a natural language processing library to handle this automatically.</p>
+      <p>The technical connection itself wasn\'t the hard part. What I actually spent most of my time on was the testing problem. When you\'re touching HR at enterprise scale, you\'re dealing with real employee data — pay, performance reviews, hiring decisions. You can\'t ship something where your confidence level is "it usually works." Before anything went to live, I built a testing setup: an automated scoring system that ran the AI\'s output against a labeled test set, wired into our build process so every model update got scored before it could deploy. If accuracy dropped below a threshold, the build failed.</p>
+      <p>That testing setup outlived the single feature I built it for — the team used the same approach for later AI work. Manual effort for clients who adopted the system dropped around 25%. What I'm most satisfied with is that we could show clients exactly how we measured accuracy, what our targets were, and how we\'d know if it got worse. That\'s a very different conversation from just saying "trust us, we tested it."</p>
+    </div>
+  </div>
+
+  <!-- Story 5B -->
+  <div class="card card-story">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Story 5B — Spec-Driven Development Pipeline</div>
+        <div class="card-sub">AI in the development process itself — your strongest differentiator</div>
+      </div>
+      <button class="speak-btn" onclick="speak(this,\'story5b','Story 5B — Spec-Driven Development')">
+        <svg class="speak-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        Speak
+      </button>
+    </div>
+    <div class="tags">
+      <span class="tag tag-green">Most unique story</span>
+      <span class="tag">AI in dev process</span>
+      <span class="tag">Figma → tickets</span>
+      <span class="tag">Akash\'s area</span>
+    </div>
+    <div class="staff-moment">Staff framing: "I noticed the translation work and decided it shouldn\'t be done by hand."</div>
+    <div id="story5b">
+      <p>The other AI story — the one I find more interesting, honestly — is about the development process itself, not the product.</p>
+      <p>The problem I was trying to fix: going from a design to something engineers could actually build was slow and full of gaps. You\'d have a Figma design, and then someone had to write a requirements document, then a technical doc, then create work tickets, then write test cases — one after another, by hand, and every step was a chance for something to drift or just get skipped. Engineers were spending a lot of time on translation work that felt like it should be automatable.</p>
+      <p>I built a pipeline where an AI system starts from a walkthrough of the design and generates the requirements document, the technical spec, the work tickets, and the test cases automatically. Engineers review and correct instead of writing from scratch. That\'s actually a different kind of work — you\'re checking what\'s there rather than deciding what to include. You catch different things, and you catch more of them.</p>
+      <p>Post-release UI bugs dropped 25% and we went from monthly releases to weekly. The bug reduction surprised me more than the frequency change. My best guess is that generating test cases directly from the spec catches edge cases that a person writing tests from memory would miss — but I can\'t claim I proved that, it\'s just what the data suggested.</p>
+      <p>The thing that makes this interesting at Agoda\'s scale — a thousand experiments running at once — is that spec and ticket volume is probably ten times what we had. That translation work doesn\'t get smaller as you scale. It compounds.</p>
+    </div>
+  </div>
+
+  <!-- Story 6 -->
+  <div class="card card-story">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Story 6 — Handling Pushback from Management</div>
+        <div class="card-sub">Defending a recommendation / data-driven persuasion</div>
+      </div>
+      <button class="speak-btn" onclick="speak(this,\'story6','Story 6 — Handling Pushback')">
+        <svg class="speak-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        Speak
+      </button>
+    </div>
+    <div class="tags">
+      <span class="tag">management pushback</span>
+      <span class="tag">defend recommendation</span>
+      <span class="tag">data-driven case</span>
+    </div>
+    <div class="staff-moment">Staff framing: "I built the case properly instead of moving on conviction alone."</div>
+    <div id="story6">
+      <p>When I was proposing the MFE shift, management\'s concern was added complexity and the risk of disrupting teams already behind on their work. And honestly, it was a fair concern. Splitting an app into separate deployable pieces does add real complexity up front.</p>
+      <p>I didn\'t try to argue them out of it. The concern was correct. What I tried to show instead was the cost of where we already were. I put together actual numbers: how many hours a week were going into cross-team coordination right now, how often releases were slipping because of dependencies between teams. Not guesses about future problems — current, measurable cost that was already happening.</p>
+      <p>When there\'s a real number attached to a problem, the conversation shifts. It stops being about whether to change and starts being about how to manage the transition without making things worse first. I suggested starting with one team as a real test, with a clear decision point before we\'d expand. That gave management a way out if it wasn\'t working, and gave me a chance to prove it in practice before asking for a bigger commitment.</p>
+      <p>The pilot worked, and we expanded. Looking back — the fact that they pushed back hard actually helped. It meant I had to build the case properly instead of just moving on gut feeling, and the adoption held up better because of it.</p>
+    </div>
+  </div>
+
+  <!-- Story 7 -->
+  <div class="card card-story">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Story 7 — Mentoring &amp; Knowledge Transfer</div>
+        <div class="card-sub">Scaling your impact through others</div>
+      </div>
+      <button class="speak-btn" onclick="speak(this,\'story7','Story 7 — Mentoring and Knowledge Transfer')">
+        <svg class="speak-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        Speak
+      </button>
+    </div>
+    <div class="tags">
+      <span class="tag">mentoring</span>
+      <span class="tag">knowledge sharing</span>
+      <span class="tag">team growth</span>
+    </div>
+    <div class="staff-moment">Staff framing: "I look for when they fix something without flagging it — that\'s when the knowledge is actually there."</div>
+    <div id="story7">
+      <p>I've tried a lot of different approaches to knowledge sharing, and what I keep running into is that presentations don\'t really stick. You do a session, people get it in the room, and three weeks later nothing has changed in how they work.</p>
+      <p>What worked better at Netskope was building things in front of people with the thinking visible. I\'d take something real from our codebase — like migrating a module from one build tool to another — work through it live, make decisions out loud, explain what I was weighing and why I went one way over another, then hand it off for someone else to continue from there. The doing stays with people. The watching doesn\'t.</p>
+      <p>I also started a session every two weeks where anyone could bring a problem or something they\'d learned — no agenda, no required slides. That one surfaced things I wouldn\'t have found any other way. Engineers earlier in their careers often know exactly where the daily pain is before senior people do, because they\'re the ones actually running into it every day.</p>
+      <p>The signal I look for: when someone catches a problem in a code review and doesn\'t even flag it as anything special — they just fixed it. That means the knowledge is actually there, not just the habit of waiting for someone else to notice it.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CODING ─── -->
+<div class="section" id="s-coding">
+  <div class="sec-head">
+    <h2>Round 1 · Coding (HackerRank)</h2>
+    <p>3 questions · Easy / Medium / Hard · ~90 min. Narrate out loud — never go silent for 5 minutes.</p>
+  </div>
+  <div class="rem-box" style="margin-bottom:20px">
+    <h3>When stuck, say:</h3>
+    <ul><li><code>"The issue here is [X] — I'm going to try [Y] next."</code></li>
+    <li><code>"Let me think about the edge cases first before I code."</code></li>
+    <li><code>"Brute force is O(n²) — let me see if I can get this to O(n) with a hash map."</code></li></ul>
+  </div>
+
+  <div class="q-section">
+    <div class="q-section-title">Algorithmic Problems</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">1</span><span class="q-text">Given an array of stock prices, find the maximum profit with one buy and one sell — when do you buy and sell?</span></li>
+      <li class="q-item"><span class="q-n">2</span><span class="q-text">Count all distinct palindromic substrings in a string — how do you approach this efficiently?</span></li>
+      <li class="q-item"><span class="q-n">3</span><span class="q-text">A monkey needs to eat K bananas per hour to finish before guards return — find the minimum K. (Binary search on answer)</span></li>
+      <li class="q-item"><span class="q-n">4</span><span class="q-text">Find all pairs in an array that have a difference of K — what approach avoids O(n²)?</span></li>
+      <li class="q-item"><span class="q-n">5</span><span class="q-text">Given a binary tree — serialize it to a string and deserialize it back.</span></li>
+      <li class="q-item"><span class="q-n">6</span><span class="q-text">Given n intervals, merge all overlapping intervals.</span></li>
+      <li class="q-item"><span class="q-n">7</span><span class="q-text">Implement an LRU cache with O(1) get and put operations.</span></li>
+      <li class="q-item"><span class="q-n">8</span><span class="q-text">Find the first missing positive integer in an unsorted array.</span></li>
+      <li class="q-item"><span class="q-n">9</span><span class="q-text">Given a string with brackets, determine if the sequence is valid.</span></li>
+    </ul>
+  </div>
+
+  <div class="q-section">
+    <div class="q-section-title">Object-Oriented Design</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">10</span><span class="q-text">Design a Tennis scoreboard class — model the state machine for a single game (love, 15, 30, 40, deuce, advantage, win). What are the edge cases?</span></li>
+      <li class="q-item"><span class="q-n">11</span><span class="q-text">Design a rate limiter — what\'s your class structure and state?</span></li>
+      <li class="q-item"><span class="q-n">12</span><span class="q-text">Design a simple event emitter (subscribe, emit, unsubscribe) — handle multiple listeners for the same event.</span></li>
+    </ul>
+  </div>
+
+  <div class="q-section">
+    <div class="q-section-title">DOM / Browser API (Frontend-specific)</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">13</span><span class="q-text">Implement <code style="color:var(--accent);font-size:12px">getElementsByStyle(property, value)</code> — traverse the DOM and return all elements where a computed style matches.</span></li>
+      <li class="q-item"><span class="q-n">14</span><span class="q-text">Implement a debounce function — what\'s the difference between debounce and throttle?</span></li>
+      <li class="q-item"><span class="q-n">15</span><span class="q-text">Implement a deep clone without using JSON.stringify — what edge cases do you handle?</span></li>
+      <li class="q-item"><span class="q-n">16</span><span class="q-text">Write a function that flattens a nested array to any specified depth.</span></li>
+      <li class="q-item"><span class="q-n">17</span><span class="q-text">Implement Promise.all from scratch — what happens if one promise rejects?</span></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ─── PLATFORM ─── -->
+<div class="section" id="s-platform">
+  <div class="sec-head">
+    <h2>Round 2 · Platform (Technical Deep-Dive)</h2>
+    <p>No coding. Verbal/whiteboard. Replace "maybe we could" with "I\'d recommend". Volunteer security and testing angles.</p>
+  </div>
+  <div class="q-section">
+    <div class="q-section-title">Browser &amp; Networking</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">1</span><span class="q-text">What exactly happens when you type a URL and hit Enter? Walk me through every step.</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">2</span><span class="q-text">What is the difference between HTTP and HTTPS? What specifically is encrypted?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">3</span><span class="q-text">What is DNS caching — where does it happen and for how long?</span></li>
+      <li class="q-item"><span class="q-n">4</span><span class="q-text">What changed in HTTP/2 vs HTTP/1.1 vs HTTP/3 — what\'s multiplexing?</span></li>
+      <li class="q-item"><span class="q-n">5</span><span class="q-text">What are CORS errors and how do you resolve them — from both frontend and server side?</span></li>
+      <li class="q-item"><span class="q-n">6</span><span class="q-text">Explain the browser\'s critical rendering path — what blocks it?</span></li>
+      <li class="q-item"><span class="q-n">7</span><span class="q-text">What is prefetching vs preloading — when do you use each?</span></li>
+    </ul>
+  </div>
+  <div class="q-section">
+    <div class="q-section-title">Authentication &amp; Security</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">8</span><span class="q-text">How do you handle user authentication in a web app? What storage options exist for tokens and what are the trade-offs?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">9</span><span class="q-text">Why store JWT in an HTTP-only cookie instead of localStorage?</span></li>
+      <li class="q-item"><span class="q-n">10</span><span class="q-text">What is CSRF — how do HTTP-only cookies help and what additional protection do you need?</span></li>
+      <li class="q-item"><span class="q-n">11</span><span class="q-text">What is XSS — how do you prevent it in a React app specifically?</span></li>
+      <li class="q-item"><span class="q-n">12</span><span class="q-text">What is Content Security Policy — how do you configure it?</span></li>
+    </ul>
+  </div>
+  <div class="q-section">
+    <div class="q-section-title">Rendering &amp; Performance</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">13</span><span class="q-text">What is the difference between CSR, SSR, SSG, and ISR — give a use case for each.</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">14</span><span class="q-text">When would you choose SSR over CSR for an e-commerce site?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">15</span><span class="q-text">What is hydration — what are hydration errors and what causes them?</span></li>
+      <li class="q-item"><span class="q-n">16</span><span class="q-text">What is the difference between FCP, LCP, and TTI?</span></li>
+      <li class="q-item"><span class="q-n">17</span><span class="q-text">How do you maintain fast DOM performance when rendering large lists?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">18</span><span class="q-text">What is virtual scrolling / list virtualization — when do you reach for it?</span></li>
+      <li class="q-item"><span class="q-n">19</span><span class="q-text">Common causes of poor e-commerce site performance and how do you fix them?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+    </ul>
+  </div>
+  <div class="q-section">
+    <div class="q-section-title">React Deep Dive</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">20</span><span class="q-text">Why does React provide React.memo — what are its pros and cons?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">21</span><span class="q-text">Explain useMemo and useCallback — when do you actually need them vs when are they premature?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">22</span><span class="q-text">What is React Context — how does it cause performance issues and how do you avoid that?</span></li>
+      <li class="q-item"><span class="q-n">23</span><span class="q-text">How does React\'s reconciliation algorithm work at a high level?</span></li>
+      <li class="q-item"><span class="q-n">24</span><span class="q-text">What changed in React 18 — concurrent features, automatic batching, Suspense for data?</span></li>
+      <li class="q-item"><span class="q-n">25</span><span class="q-text">What is React 19 bringing — Server Components, server actions?</span></li>
+    </ul>
+  </div>
+  <div class="q-section">
+    <div class="q-section-title">State Management</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">26</span><span class="q-text">How would you handle cart state in an e-commerce app — persistence, sync with backend, guest users?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">27</span><span class="q-text">When do you reach for Redux vs Zustand vs Context API — what\'s your decision framework?</span></li>
+      <li class="q-item"><span class="q-n">28</span><span class="q-text">What is the difference between server state and client state?</span></li>
+      <li class="q-item"><span class="q-n">29</span><span class="q-text">How does React Query / TanStack Query work — what problem does it solve that useState/useEffect doesn\'t?</span></li>
+      <li class="q-item"><span class="q-n">30</span><span class="q-text">What is optimistic UI — when should you use it and what can go wrong?</span></li>
+    </ul>
+  </div>
+  <div class="q-section">
+    <div class="q-section-title">API, Build Tools &amp; Testing</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">31</span><span class="q-text">How do you connect to backend APIs — fetch, Axios, React Query, polling, long polling, WebSockets — when do you use each?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">32</span><span class="q-text">What is a BFF (Backend for Frontend) — why would you introduce one? When is it overkill?</span></li>
+      <li class="q-item"><span class="q-n">33</span><span class="q-text">What is the difference between Webpack and Rspack / Vite — why would you migrate?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">34</span><span class="q-text">What is tree shaking — what breaks it?</span></li>
+      <li class="q-item"><span class="q-n">35</span><span class="q-text">What is Module Federation — what problem does it solve in a micro-frontend setup?</span></li>
+      <li class="q-item"><span class="q-n">36</span><span class="q-text">What types of testing should a robust web app have — what\'s the right balance?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">37</span><span class="q-text">What is Pact / consumer-driven contract testing — how does it work?</span></li>
+      <li class="q-item"><span class="q-n">38</span><span class="q-text">Common challenges with E2E testing — how do you handle flakiness?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ─── ARCHITECTURE ─── -->
+<div class="section" id="s-arch">
+  <div class="sec-head">
+    <h2>Round 3 · Architecture (Whiteboard, 55 min)</h2>
+    <p>Open with constraints. Make decisions. Defend them. Never say "maybe" for an architectural choice.</p>
+  </div>
+  <div class="rem-box" style="margin-bottom:20px">
+    <h3>Opening line every time:</h3>
+    <ul><li><code>"Before I touch the design, let me state the constraints I'm working with."</code></li>
+    <li>Mention metrics/observability before being asked — FCP &lt;1.5s, search-to-results P95, booking conversion</li>
+    <li>Bring up BFF proactively — Agoda uses it in Kotlin/.NET</li></ul>
+  </div>
+
+  <!-- THE canonical question -->
+  <div class="card" style="background:#0e1828;border-color:#1e3a5c;margin-bottom:6px">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Design a Hotel Search Listing Page from Scratch</div>
+        <div class="card-sub">THE canonical Agoda question · High probability of repeat</div>
+      </div>
+      <div class="badges" style="padding-top:0"><span class="b b-h">HIGH PROB</span><span class="b b-r" style="margin-left:4px">REPEAT</span></div>
+    </div>
+    <button class="toggle-arch" onclick="toggleArch(this)">Show sample answer ▾</button>
+    <div class="arch-answer" id="arch-hotel">
+      <h4>Step 1 — State constraints first</h4>
+      <p>"Before I start drawing anything, let me state what I'm optimizing for. The page has two states: before a search (empty or showing popular destinations), and after a search (live results with filters and prices). Prices change frequently. Multiple teams will own different parts. Some city-level pages like /hotels/bangkok need to be indexed by Google."</p>
+
+      <h4>Step 2 — Rendering strategy</h4>
+      <p><strong>I\'d recommend Next.js with a hybrid approach.</strong> City landing pages (/hotels/bangkok) use SSR — they load fast, work without JavaScript, and Google can index them. For live search results that depend on what the user typed, those render client-side after the initial page. I\'d use ISR for city pages so content updates without a full redeploy.</p>
+
+      <h4>Step 3 — Repo and team structure</h4>
+      <p>Monorepo. The search bar, hotel cards, filter panel, and pricing widget are separate packages. Teams own their package. Module Federation lets them deploy independently. The host application defines where each piece goes — it doesn\'t own the pieces themselves.</p>
+
+      <h4>Step 4 — State management</h4>
+      <ul>
+        <li><strong>Filter state → URL params.</strong> /hotels/bangkok?checkin=2026-07-01&amp;guests=2. Shareable, bookmarkable, back button works. No library needed.</li>
+        <li><strong>Hotel list data → React Query.</strong> Handles caching, loading states, retries. I don\'t need Redux for server data.</li>
+        <li><strong>Session state (selected hotel, comparison) → Zustand.</strong> Simple, no boilerplate.</li>
+      </ul>
+
+      <h4>Step 5 — API layer</h4>
+      <p><strong>I\'d introduce a BFF here.</strong> The hotel listing page needs data from search, pricing, inventory, and image services — four different backends. Without a BFF, the frontend makes four calls and assembles the response itself. The BFF combines them and sends exactly what the frontend needs. It also lives close to the backend services, so it\'s faster. For Agoda this is likely in Kotlin or .NET.</p>
+
+      <h4>Step 6 — Price freshness</h4>
+      <p>Two-step: load the hotel list quickly with cached prices, then fetch live prices in the background and update just those fields. For users actively browsing, poll every 45 seconds or use a WebSocket connection. The list never goes blank while prices refresh.</p>
+
+      <h4>Metrics I\'d define from day one</h4>
+      <ul>
+        <li>First Contentful Paint under 1.5 seconds</li>
+        <li>Search results visible in under 2 seconds, P95</li>
+        <li>Booking conversion rate — the north star. Everything supports this.</li>
+      </ul>
+
+      <h4>Testing</h4>
+      <p>Contract tests between the BFF and each backend service — if pricing changes what it returns, we catch it before it reaches the frontend. Visual regression tests for hotel cards. E2E tests for the full search → select → book path.</p>
+
+      <h4>Migration from monolith</h4>
+      <p>No big rewrite. Pick this page — high value, high traffic — rebuild it in the new architecture, run both versions in parallel with a traffic split, cut over when stable. The monolith keeps running until migration is done page by page.</p>
+    </div>
+  </div>
+
+  <div class="q-section" style="margin-top:20px">
+    <div class="q-section-title">Follow-up questions on this design</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">1</span><span class="q-text">The page is empty by default until the user searches — does that change your rendering decision?</span></li>
+      <li class="q-item"><span class="q-n">2</span><span class="q-text">What if we want /hotels/bangkok to be SEO-indexed and shareable?</span></li>
+      <li class="q-item"><span class="q-n">3</span><span class="q-text">Why Next.js over plain React for this use case?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">4</span><span class="q-text">Monorepo vs separate repos — trade-offs for a multi-team setup.</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">5</span><span class="q-text">Hotels have frequently updating prices — how do you keep prices fresh without over-fetching?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">6</span><span class="q-text">Why Zustand over Redux for this use case?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">7</span><span class="q-text">Where does pagination state live — local, context, or URL params? Why?</span></li>
+      <li class="q-item"><span class="q-n">8</span><span class="q-text">How would you structure team ownership so multiple teams can contribute without blocking each other?</span></li>
+      <li class="q-item"><span class="q-n">9</span><span class="q-text">What metrics would you track from day one — and how?</span><div class="badges"><span class="b b-h">EXPECTED</span></div></li>
+      <li class="q-item"><span class="q-n">10</span><span class="q-text">What\'s the main risk in the architecture you just described — how do you mitigate it?</span></li>
+      <li class="q-item"><span class="q-n">11</span><span class="q-text">If the team was already 6 months into building this — what would you do differently?</span></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ─── CULTURE ─── -->
+<div class="section" id="s-culture">
+  <div class="sec-head">
+    <h2>Round 4 · Culture / Values (60–90 min)</h2>
+    <p>Every story starts with a scope sentence. At least one story uses the experiment frame: hypothesis → measurement → outcome → learning.</p>
+  </div>
+  <div class="q-section">
+    <div class="q-section-title">Background &amp; Staff Framing</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">1</span><span class="q-text">Give us a quick summary of your experience.</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">2</span><span class="q-text">What drove the moves from company to company?</span></li>
+      <li class="q-item"><span class="q-n">3</span><span class="q-text">What does "staff engineer" mean to you versus a senior engineer? Where\'s the line?</span></li>
+    </ul>
+  </div>
+  <div class="q-section">
+    <div class="q-section-title">MFE Adoption (will be probed deep)</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">4</span><span class="q-text">How did you drive micro-frontend adoption — and how did you convince management?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">5</span><span class="q-text">Was this assigned to you or did you identify it yourself?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">6</span><span class="q-text">What was the biggest pushback you received from management?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">7</span><span class="q-text">MFEs are tricky and risky — what went wrong? What would you do differently?</span></li>
+      <li class="q-item"><span class="q-n">8</span><span class="q-text">How will this initiative persist after you leave?</span></li>
+    </ul>
+  </div>
+  <div class="q-section">
+    <div class="q-section-title">Process &amp; Quality</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">9</span><span class="q-text">What development processes did you introduce or significantly change?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">10</span><span class="q-text">How did you improve the code review process — what specifically changed?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">11</span><span class="q-text">How do you handle large-scale code review workloads without burning out reviewers?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">12</span><span class="q-text">Are there AI-assisted processes in your development workflow — how did you introduce them?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">13</span><span class="q-text">How do you address errors from AI code suggestions?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+    </ul>
+  </div>
+  <div class="q-section">
+    <div class="q-section-title">Technical Leadership</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">14</span><span class="q-text">What are your main responsibilities as a staff engineer — how is the day-to-day different from senior?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">15</span><span class="q-text">Tell me about a time you influenced a technical direction across teams you didn\'t manage.</span></li>
+      <li class="q-item"><span class="q-n">16</span><span class="q-text">How do you convince stakeholders to invest in technical debt when there\'s product pressure?</span></li>
+      <li class="q-item"><span class="q-n">17</span><span class="q-text">How will your technical initiatives at Netskope persist after you leave?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+    </ul>
+  </div>
+  <div class="q-section">
+    <div class="q-section-title">Mentoring &amp; Failure</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">18</span><span class="q-text">Can you share a specific mentoring experience — what was the situation, how did you approach it?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">19</span><span class="q-text">How would you handle a critical failure delaying a major release where you are responsible?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">20</span><span class="q-text">Have you experienced a production incident in a micro-frontend deployment?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">21</span><span class="q-text">How do you handle a situation where a team disagrees with your architectural recommendation?</span></li>
+    </ul>
+  </div>
+  <div class="q-section">
+    <div class="q-section-title">Agoda-Specific</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">22</span><span class="q-text">Agoda\'s culture of experimentation — can you share a story where you used a hypothesis-driven approach?</span></li>
+      <li class="q-item"><span class="q-n">23</span><span class="q-text">What is Agoda\'s culture of experimentation — can you share a data-driven story?</span></li>
+      <li class="q-item"><span class="q-n">24</span><span class="q-text">Why do you want to relocate to Bangkok — how have you thought that through?</span></li>
+      <li class="q-item"><span class="q-n">25</span><span class="q-text">What are the expectations for a staff engineer in the first six months?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+      <li class="q-item"><span class="q-n">26</span><span class="q-text">How is impact measured here — engineering quality, business, team efficiency?</span><div class="badges"><span class="b b-r">REPEAT</span></div></li>
+    </ul>
+  </div>
+  <div class="q-section">
+    <div class="q-section-title">Questions You Ask Them</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">→</span><span class="q-text"><em>"What\'s the hardest unsolved frontend architecture problem on the accommodation platform right now?"</em></span></li>
+      <li class="q-item"><span class="q-n">→</span><span class="q-text"><em>"How does a staff engineer typically initiate a cross-team architectural proposal here?"</em></span></li>
+      <li class="q-item"><span class="q-n">→</span><span class="q-text"><em>"What does success look like at the 6-month mark for someone in this role?"</em></span></li>
+      <li class="q-item"><span class="q-n">→</span><span class="q-text"><em>"What do the most impactful staff engineers at Agoda have in common?"</em></span></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ─── AI ─── -->
+<div class="section" id="s-ai">
+  <div class="sec-head">
+    <h2>AI Engineering Questions (Cross-Round)</h2>
+    <p>Akash manages agent AI chat frontends at Agoda — expect deep probing here. Lead with Spec-Driven Dev pipeline if the question is open.</p>
+  </div>
+  <div class="q-section">
+    <div class="q-section-title">LLM Integration in Production</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">1</span><span class="q-text">You built an AI eval harness at SAP — what exactly is LLM-as-Judge scoring and why does it matter?</span></li>
+      <li class="q-item"><span class="q-n">2</span><span class="q-text">How do you prevent model drift from degrading a production AI feature over time?</span></li>
+      <li class="q-item"><span class="q-n">3</span><span class="q-text">What\'s the difference between offline and online evaluation of an LLM feature?</span></li>
+      <li class="q-item"><span class="q-n">4</span><span class="q-text">How do you handle hallucinations in production — detection, fallback, escalation?</span></li>
+      <li class="q-item"><span class="q-n">5</span><span class="q-text">What is context engineering — how did you manage context limits across 8,000+ enterprise tenants?</span></li>
+      <li class="q-item"><span class="q-n">6</span><span class="q-text">What\'s a sliding window + summarization compaction approach — when do you need it?</span></li>
+      <li class="q-item"><span class="q-n">7</span><span class="q-text">How do you keep AI API costs predictable at scale?</span></li>
+    </ul>
+  </div>
+  <div class="q-section">
+    <div class="q-section-title">AI in Frontend / Product Features</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">8</span><span class="q-text">How would you add an AI-powered smart search to a hotel listing page — what\'s the architecture?</span></li>
+      <li class="q-item"><span class="q-n">9</span><span class="q-text">What\'s the frontend contract for streaming LLM responses — how do you render tokens as they arrive?</span></li>
+      <li class="q-item"><span class="q-n">10</span><span class="q-text">How do you handle AI feature latency in the UI — what\'s an acceptable UX for a 2–3 second AI response?</span></li>
+      <li class="q-item"><span class="q-n">11</span><span class="q-text">How would you A/B test an AI-powered feature at Agoda\'s scale?</span></li>
+      <li class="q-item"><span class="q-n">12</span><span class="q-text">How do you handle AI output that changes on every request — caching strategies?</span></li>
+    </ul>
+  </div>
+  <div class="q-section">
+    <div class="q-section-title">Spec-Driven Development (your unique story)</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">13</span><span class="q-text">Walk me through your Spec-Driven Development pipeline — Figma to PRD to JIRA to test cases. How does the agent chain work?</span></li>
+      <li class="q-item"><span class="q-n">14</span><span class="q-text">What were the failure modes when you first ran the AI spec pipeline — what broke and how did you fix it?</span></li>
+      <li class="q-item"><span class="q-n">15</span><span class="q-text">How did you get team buy-in for shifting from "write specs" to "validate AI-generated specs"?</span></li>
+      <li class="q-item"><span class="q-n">16</span><span class="q-text">You went from monthly to weekly deployments — what specifically unlocked that frequency?</span></li>
+      <li class="q-item"><span class="q-n">17</span><span class="q-text">What are the risks of AI-generated test cases — what can they miss that a human would catch?</span></li>
+    </ul>
+  </div>
+  <div class="q-section">
+    <div class="q-section-title">Staff-Level AI Strategy</div>
+    <ul class="q-list">
+      <li class="q-item"><span class="q-n">18</span><span class="q-text">A product team wants to ship an AI feature in 2 weeks. What questions do you ask before saying yes?</span></li>
+      <li class="q-item"><span class="q-n">19</span><span class="q-text">How do you communicate AI limitations to non-technical stakeholders?</span></li>
+      <li class="q-item"><span class="q-n">20</span><span class="q-text">What does "responsible AI" mean to you in practice — not the policy definition, the day-to-day behavior?</span></li>
+      <li class="q-item"><span class="q-n">21</span><span class="q-text">How would you use AI to accelerate experiment analysis or spec generation at Agoda\'s scale (1,000 concurrent experiments)?</span></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ─── REMINDERS ─── -->
+<div class="section" id="s-reminders">
+  <div class="sec-head">
+    <h2>Posture Reminders</h2>
+    <p>Read the relevant section the morning of each round. Takes 2 minutes.</p>
+  </div>
+
+  <div class="rem-box">
+    <h3>Before Architecture Round</h3>
+    <ul>
+      <li>Open with: <code>"Before I touch the design, let me state the constraints I'm working with."</code></li>
+      <li>Don\'t say "maybe" for any architectural decision — say "I'm recommending X because Y."</li>
+      <li>Mention you evaluated Module Federation against alternatives — that signals Staff-level thinking.</li>
+      <li>Bring up BFF proactively — Agoda uses it. Score points before being asked.</li>
+      <li>Bring up metrics before being asked — FCP &lt;1.5s, search-to-results P95, booking conversion as north star.</li>
+      <li>If you blank: <code>"Let me anchor back to the core constraint — the decision here is..."</code></li>
+    </ul>
+  </div>
+
+  <div class="rem-box yellow">
+    <h3>Before Culture Round</h3>
+    <ul>
+      <li>Every story starts with a scope sentence: <code>"This was a cross-team problem, not just mine..."</code></li>
+      <li>At least one story should have: <code>"I noticed this before anyone asked me to look at it."</code></li>
+      <li>Tell one story in experiment frame: hypothesis → what we measured → what changed → what we'd do differently.</li>
+      <li>Replace <code>"I tried to ensure"</code> with <code>"I built the case, got teams aligned, and the result was..."</code></li>
+      <li>If AI comes up: lead with Spec-Driven Development pipeline first. Akash's team works on agent AI frontends.</li>
+    </ul>
+  </div>
+
+  <div class="rem-box green">
+    <h3>Before Platform Round</h3>
+    <ul>
+      <li>Replace <code>"maybe we could"</code> with <code>"I\'d recommend"</code> for every technical suggestion.</li>
+      <li>Volunteer security and testing angles before being asked — it signals Staff-level thinking.</li>
+      <li>Have a crisp BFF explanation ready — 2 sentences maximum.</li>
+      <li>If AI questions arise: LLM-as-Judge eval harness + CI integration is your technical depth signal.</li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-top:20px">
+    <div class="card-title" style="margin-bottom:12px">Numbers to Remember</div>
+    <div class="nums-grid">
+      <div class="num-card"><div class="num-val">−20%</div><div class="num-lbl">Code duplication (MFE adoption)</div></div>
+      <div class="num-card"><div class="num-val">−30%</div><div class="num-lbl">Integration turnaround (API contracts)</div></div>
+      <div class="num-card"><div class="num-val">−25%</div><div class="num-lbl">Post-release UI bugs (Spec pipeline)</div></div>
+      <div class="num-card"><div class="num-val">Monthly→Weekly</div><div class="num-lbl">Release frequency (Spec pipeline + MFE)</div></div>
+      <div class="num-card"><div class="num-val">4wk→2wk</div><div class="num-lbl">New engineer onboarding (code review)</div></div>
+      <div class="num-card"><div class="num-val">−30%</div><div class="num-lbl">Bug-fix cycle time (code review + mentoring)</div></div>
+      <div class="num-card"><div class="num-val">−25%</div><div class="num-lbl">Manual HR processing (AI workflows SAP)</div></div>
+      <div class="num-card"><div class="num-val">−25%</div><div class="num-lbl">Render time (react-window virtualization)</div></div>
+      <div class="num-card"><div class="num-val">−50%</div><div class="num-lbl">Candidate review time (SwoopTalent)</div></div>
+      <div class="num-card"><div class="num-val">3×</div><div class="num-lbl">Recruiter throughput (Chrome extension)</div></div>
+    </div>
+  </div>
+
+  <div class="comp-box">
+    <p><strong>Compensation (if asked):</strong> "My expectation is 190K THB per month. I'm open to discussing how it\'s structured — base, bonus, signing." Don\'t anchor in LPA. State THB as your position. You have leverage: the role reopened, they know your profile, they liked you enough for Round 6 last time.</p>
+  </div>
+</div>
+
+<!-- ─── GLOSSARY ─── -->
+<div class="section" id="s-glossary">
+  <div class="sec-head">
+    <h2>Glossary — Technical Terms</h2>
+    <p>Words that come up often in interviews. Know the meaning in your own words.</p>
+  </div>
+  <input class="glo-search" type="text" placeholder="Search terms..." oninput="filterGlossary(this.value)">
+  <div class="glo-grid" id="glossary-grid">
+    <!-- injected by JS -->
+  </div>
+</div>
+
+</main>
+</div><!-- end .app -->
+
+<!-- TTS PLAYER BAR -->
+<div class="tts-bar" id="tts-bar">
+  <div class="tts-info">Now speaking: <strong id="tts-title">—</strong></div>
+  <div class="tts-ctrls">
+    <button class="tts-btn" id="tts-pause" onclick="togglePause()">⏸ Pause</button>
+    <button class="tts-btn" onclick="stopSpeech()">⏹ Stop</button>
+    <select class="spd" id="tts-speed" onchange="changeSpeed(this.value)">
+      <option value="0.8">0.8×</option>
+      <option value="0.9" selected>0.9×</option>
+      <option value="1.0">1.0×</option>
+      <option value="1.1">1.1×</option>
+    </select>
+  </div>
+</div>
+
+<script>
+// ─── NAVIGATION ───
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    item.classList.add('active');
+    const sec = item.dataset.sec;
+    document.getElementById('s-' + sec).classList.add('active');
+    window.scrollTo(0, 0);
+  });
+});
+
+// ─── TTS ───
+let currentUtterance = null;
+let currentBtn = null;
+let isPaused = false;
+let currentTitle = '';
+let currentRate = 0.9;
+
+function getIndianVoice() {
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return null;
+  // Priority: Microsoft Ravi (Indian male), then en-IN, then Google male
+  const priority = ['Ravi', 'en-IN', 'Heera', 'Hemant', 'hi-IN', 'Google UK English Male', 'David', 'Daniel'];
+  for (const p of priority) {
+    const v = voices.find(v => v.name.includes(p) || v.lang === p);
+    if (v) return v;
+  }
+  return voices.find(v => v.lang.startsWith('en')) || voices[0];
+}
+
+function speak(btn, contentId, title) {
+  window.speechSynthesis.cancel();
+  if (currentBtn && currentBtn !== btn) {
+    currentBtn.classList.remove('playing');
+    currentBtn.innerHTML = currentBtn.innerHTML.replace(/Stop$/, 'Speak');
+  }
+  if (currentBtn === btn && !isPaused) {
+    stopSpeech();
+    return;
+  }
+  const el = document.getElementById(contentId);
+  if (!el) return;
+  const text = el.innerText.trim();
+  currentTitle = title;
+  currentBtn = btn;
+  isPaused = false;
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.rate = currentRate;
+  utterance.pitch = 0.95;
+
+  function setVoiceAndSpeak() {
+    const voice = getIndianVoice();
+    if (voice) utterance.voice = voice;
+    else utterance.lang = 'en-IN';
+    window.speechSynthesis.speak(utterance);
+  }
+
+  const voices = window.speechSynthesis.getVoices();
+  if (voices.length > 0) {
+    setVoiceAndSpeak();
+  } else {
+    window.speechSynthesis.onvoiceschanged = setVoiceAndSpeak;
+  }
+
+  currentUtterance = utterance;
+  btn.classList.add('playing');
+  btn.querySelector('.speak-icon').nextSibling.textContent = ' Stop';
+  document.getElementById('tts-title').textContent = title;
+  document.getElementById('tts-bar').classList.add('on');
+  document.getElementById('tts-pause').textContent = '⏸ Pause';
+
+  utterance.onend = () => {
+    btn.classList.remove('playing');
+    btn.querySelectorAll('*')[1] && (btn.innerHTML = btn.innerHTML.replace('Stop', 'Speak'));
+    document.getElementById('tts-bar').classList.remove('on');
+    currentBtn = null;
+    currentUtterance = null;
+  };
+}
+
+function togglePause() {
+  if (!currentUtterance) return;
+  if (isPaused) {
+    window.speechSynthesis.resume();
+    isPaused = false;
+    document.getElementById('tts-pause').textContent = '⏸ Pause';
+  } else {
+    window.speechSynthesis.pause();
+    isPaused = true;
+    document.getElementById('tts-pause').textContent = '▶ Resume';
+  }
+}
+
+function stopSpeech() {
+  window.speechSynthesis.cancel();
+  isPaused = false;
+  if (currentBtn) {
+    currentBtn.classList.remove('playing');
+    // Reset button text safely
+    const btnText = currentBtn.querySelector('.speak-icon');
+    if (btnText && btnText.nextSibling) btnText.nextSibling.textContent = ' Speak';
+  }
+  document.getElementById('tts-bar').classList.remove('on');
+  currentBtn = null;
+  currentUtterance = null;
+}
+
+function changeSpeed(val) {
+  currentRate = parseFloat(val);
+  if (currentUtterance && window.speechSynthesis.speaking) {
+    const title = currentTitle;
+    const btn = currentBtn;
+    const contentId = btn ? btn.getAttribute('onclick').match(/'([^']+)'/)?.[1] : null;
+    if (contentId) {
+      window.speechSynthesis.cancel();
+      setTimeout(() => speak(btn, contentId, title), 100);
+    }
+  }
+}
+
+// ─── ARCH TOGGLE ───
+function toggleArch(btn) {
+  const answer = document.getElementById('arch-hotel');
+  answer.classList.toggle('open');
+  btn.textContent = answer.classList.contains('open') ? 'Hide sample answer ▴' : 'Show sample answer ▾';
+}
+
+// ─── GLOSSARY ───
+const glossaryData = [
+  { term: 'Module Federation', cat: 'Architecture', def: 'A way to split a large web app into separate pieces that different teams can build and deploy independently. Each piece (module) can be loaded by a host app at runtime — no shared build step needed.' },
+  { term: 'Micro-frontend (MFE)', cat: 'Architecture', def: 'Breaking a frontend app into smaller, independent applications that run together on the same page. Think of it like microservices, but for the UI layer.' },
+  { term: 'BFF — Backend for Frontend', cat: 'Architecture', def: 'A dedicated backend service built specifically for one frontend\'s needs. Instead of the frontend calling 4 different backend APIs and assembling the data, the BFF combines them and sends exactly what the UI needs.' },
+  { term: 'Monorepo', cat: 'Architecture', def: 'Storing code for multiple projects or packages in a single code repository. Teams share tools, types, and utilities while still owning their own packages.' },
+  { term: 'SSR — Server-Side Rendering', cat: 'Rendering', def: 'Generating the full HTML on the server before sending it to the browser. The page loads with content visible immediately. Good for SEO and fast first loads.' },
+  { term: 'CSR — Client-Side Rendering', cat: 'Rendering', def: 'The server sends a nearly empty HTML file, then JavaScript in the browser builds the page. Slower first load but fast navigation after that.' },
+  { term: 'SSG — Static Site Generation', cat: 'Rendering', def: 'All pages are pre-built as static HTML files at build time. Extremely fast — no server work at request time. Works best for content that doesn\'t change often.' },
+  { term: 'ISR — Incremental Static Regeneration', cat: 'Rendering', def: 'Like SSG but pages can be updated in the background after deployment. A page gets rebuilt when it\'s requested and is older than a set time. Best of both SSG speed and fresh content.' },
+  { term: 'Hydration', cat: 'Rendering', def: 'After SSR sends HTML to the browser, React "hydrates" it — it attaches event listeners and makes the page interactive. A hydration error means the server HTML didn\'t match what React expected to render.' },
+  { term: 'FCP — First Contentful Paint', cat: 'Performance', def: 'How long until the browser shows the first piece of content (text, image, etc.) on screen. Target: under 1.5 seconds.' },
+  { term: 'LCP — Largest Contentful Paint', cat: 'Performance', def: 'How long until the biggest visible element on the page has loaded. This is one of Google\'s Core Web Vitals. Target: under 2.5 seconds.' },
+  { term: 'TTI — Time to Interactive', cat: 'Performance', def: 'How long until the page responds fully to user input. The page might look ready before this — TTI measures when it actually is ready.' },
+  { term: 'P95 (95th percentile)', cat: 'Performance', def: 'A metric where 95% of requests are faster than this number. P95 of 2 seconds means 95% of users get results in under 2 seconds. Used instead of averages because averages hide outliers.' },
+  { term: 'Virtual scrolling / List virtualization', cat: 'Performance', def: 'Only rendering the DOM elements that are actually visible on screen. For a list of 10,000 items, you might only render 20 at any time — the rest don\'t exist in the DOM until scrolled into view.' },
+  { term: 'Tree shaking', cat: 'Build Tools', def: 'Removing unused code from the final bundle automatically. If you import a library but only use one function, tree shaking removes the rest. Requires ES modules to work properly.' },
+  { term: 'Code splitting', cat: 'Build Tools', def: 'Breaking the app\'s JavaScript into smaller chunks that load only when needed. Instead of one huge file, the login page loads its code, and the dashboard loads its code separately.' },
+  { term: 'Webpack / Rspack / Vite', cat: 'Build Tools', def: 'Tools that bundle all your JavaScript, CSS, and assets into optimized packages for the browser. Rspack is a Rust-based Webpack replacement that is significantly faster. Vite is faster still for development.' },
+  { term: 'React.memo', cat: 'React', def: 'A wrapper that prevents a component from re-rendering if its props haven\'t changed. Useful for expensive components that receive the same data repeatedly. Can cause bugs if used on components with complex prop comparisons.' },
+  { term: 'useMemo', cat: 'React', def: 'A React hook that remembers (caches) the result of a calculation and reuses it until the inputs change. Use it when the calculation is genuinely expensive — don\'t add it everywhere.' },
+  { term: 'useCallback', cat: 'React', def: 'A React hook that remembers a function reference so it stays the same between renders. Needed when you pass a function to a memoized child component — without it, the child re-renders every time anyway.' },
+  { term: 'React Query / TanStack Query', cat: 'React', def: 'A library for fetching, caching, and keeping server data in sync with the UI. It handles loading states, error states, background refetching, and cache invalidation — things you\'d have to wire up manually with useState and useEffect.' },
+  { term: 'Zustand', cat: 'State Management', def: 'A small, simple state management library for React. No boilerplate, no context providers. You define a store and read from it anywhere in the app. Good replacement for Redux when you don\'t need its debugging tools.' },
+  { term: 'Redux', cat: 'State Management', def: 'A predictable state management library. Stores all app state in one place. Actions describe changes, reducers apply them. Good for large apps with complex state, especially when you need time-travel debugging.' },
+  { term: 'Optimistic UI', cat: 'State Management', def: 'Updating the screen immediately as if an action succeeded, then correcting if the server responds with an error. Makes the UI feel instant. Risk: you need to handle rollback clearly when things fail.' },
+  { term: 'CORS — Cross-Origin Resource Sharing', cat: 'Security', def: 'Browser security rules that control which websites can make requests to which servers. When a React app on domain A requests data from domain B, the server on B must explicitly say it allows this.' },
+  { term: 'CSRF — Cross-Site Request Forgery', cat: 'Security', def: 'An attack where a malicious website tricks your browser into making a request to another site you\'re logged into. The browser automatically sends cookies, so the site thinks it\'s you. HTTP-only cookies alone don\'t prevent this — you also need a CSRF token.' },
+  { term: 'XSS — Cross-Site Scripting', cat: 'Security', def: 'An attack where malicious JavaScript gets injected into your website and runs in other users\' browsers. In React, this is mostly prevented because React escapes output by default. dangerouslySetInnerHTML bypasses this protection.' },
+  { term: 'CSP — Content Security Policy', cat: 'Security', def: 'A browser security feature (set as an HTTP header) that controls which scripts, styles, and resources a page is allowed to load. Prevents XSS by blocking scripts from unknown sources.' },
+  { term: 'JWT — JSON Web Token', cat: 'Security', def: 'A compact, signed token used to prove who a user is. Contains a payload (user ID, roles) and a signature. The server can verify the signature without storing session data. Not encrypted by default — don\'t put secrets in it.' },
+  { term: 'HTTP-only Cookie', cat: 'Security', def: 'A cookie with the HttpOnly flag set, which means JavaScript cannot read it. This makes it much safer for storing session tokens — even if an XSS attack runs, it can\'t steal the cookie.' },
+  { term: 'Debounce', cat: 'JavaScript', def: 'Delaying a function call until the user stops triggering it. For a search input: wait until they stop typing for 300ms, then fire the search. Prevents a search on every single keystroke.' },
+  { term: 'Throttle', cat: 'JavaScript', def: 'Limiting how often a function can run, regardless of how many times it\'s triggered. For scroll events: fire at most once every 100ms. Unlike debounce, it runs at regular intervals, not just at the end.' },
+  { term: 'Pact / Contract Testing', cat: 'Testing', def: 'A testing approach where the frontend defines exactly what it expects from the API (field names, types, shapes), and the API\'s tests verify it delivers that. Catches API contract mismatches before they cause production bugs.' },
+  { term: 'WebSockets', cat: 'Networking', def: 'A full-duplex connection between browser and server that stays open. Both sides can send messages at any time. Good for live prices, chat, or real-time collaboration.' },
+  { term: 'SSE — Server-Sent Events', cat: 'Networking', def: 'A one-way connection where the server pushes updates to the browser. Simpler than WebSockets when you only need server-to-client updates (like notifications or live scores).' },
+  { term: 'GraphQL', cat: 'Networking', def: 'A query language for APIs where the client specifies exactly what data it needs. No over-fetching (getting more than you need) or under-fetching (needing multiple requests). Adds complexity — best when you have many clients with different data needs.' },
+  { term: 'LLM-as-Judge', cat: 'AI', def: 'Using one AI model to score or evaluate the output of another AI model. You give the judge a rubric (accuracy, helpfulness, format) and it rates each response. Used when human annotation doesn\'t scale.' },
+  { term: 'RAG — Retrieval-Augmented Generation', cat: 'AI', def: 'Adding relevant documents to an AI prompt so it can answer questions about specific content it wasn\'t trained on. You retrieve matching chunks from a database, then include them in the prompt. Cheaper and more accurate than fine-tuning for knowledge tasks.' },
+  { term: 'Context engineering', cat: 'AI', def: 'Carefully deciding what information goes into an AI\'s conversation window to get the best output. At scale, it also means managing the size and cost of that window — what to include, what to summarize, what to drop.' },
+  { term: 'Spec-Driven Development', cat: 'AI', def: 'Using AI to auto-generate specs, tickets, and test cases from a design. Engineers review and correct the output instead of writing from scratch. Shifts the work from authoring to validating — which tends to catch more edge cases.' },
+  { term: 'Semantic Versioning', cat: 'General', def: 'A version numbering system: MAJOR.MINOR.PATCH (e.g. 2.4.1). MAJOR = breaking change. MINOR = new feature, backwards-compatible. PATCH = bug fix. When you say a shared component change "breaks" consumers, that means a MAJOR version bump is required.' },
+  { term: 'Post-mortem', cat: 'General', def: 'A review meeting held after a production incident to understand what went wrong and how to prevent it. A good post-mortem focuses on the system and process, not on blaming people.' },
+  { term: 'SLA — Service Level Agreement', cat: 'General', def: 'A commitment to meet a specific standard. In engineering, this often means response time (e.g. "all PRs get a first review within 48 hours") or uptime (e.g. "99.9% availability"). Useful for creating shared accountability.' },
+  { term: 'DOM — Document Object Model', cat: 'Browser', def: 'The browser\'s internal tree structure representing a webpage. JavaScript can read and change it. Manipulating the DOM is expensive — React minimizes this by batching changes and using a virtual copy first.' },
+];
+
+function buildGlossary() {
+  const grid = document.getElementById('glossary-grid');
+  glossaryData.sort((a, b) => a.term.localeCompare(b.term));
+  grid.innerHTML = glossaryData.map(item => `
+    <div class="glo-item" data-search="${(item.term + ' ' + item.def + ' ' + item.cat).toLowerCase()}">
+      <div class="glo-term">${item.term}</div>
+      <div class="glo-def">${item.def}</div>
+      <span class="glo-cat">${item.cat}</span>
+    </div>
+  `).join('');
+}
+
+function filterGlossary(query) {
+  const q = query.toLowerCase().trim();
+  document.querySelectorAll('#glossary-grid .glo-item').forEach(item => {
+    item.classList.toggle('hidden', q.length > 0 && !item.dataset.search.includes(q));
+  });
+}
+
+// ─── INIT ───
+buildGlossary();
+// pre-load voices
+if (window.speechSynthesis) {
+  window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+}
+</script>
+</body>
+</html>
